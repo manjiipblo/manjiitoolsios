@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MANJII V2 - PREMIUM SYSTEM OPTIMIZER</title>
+    <style>
+        :root { --neon: #00eaff; --bg: #02040a; --glass: rgba(255, 255, 255, 0.05); --on: #00ff88; }
+        body { margin:0; font-family:-apple-system, system-ui; color:white; background:var(--bg); overflow:hidden; }
+        .bg-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, #051020 0%, #02040a 100%); z-index: -2; }
+        .orb { position: absolute; width: 200px; height: 200px; border-radius: 50%; filter: blur(60px); opacity: 0.2; z-index: -1; animation: move 12s infinite alternate ease-in-out; }
+        .orb-1 { background: var(--neon); top: -50px; left: -50px; }
+        .orb-2 { background: #007bff; bottom: -50px; right: -50px; animation-delay: -4s; }
+        @keyframes move { 0% { transform: translate(0, 0); } 100% { transform: translate(80px, 120px); } }
+
+        .container { padding: 25px; height: 100vh; display: flex; flex-direction: column; box-sizing: border-box; overflow-y: auto; }
+        .header { margin-bottom: 15px; border-left: 4px solid var(--neon); padding-left: 15px; }
+        .title { font-size: 26px; font-weight: 900; letter-spacing: 2px; }
+        .section-label { font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.3); text-transform: uppercase; margin: 12px 0 8px 0; }
+
+        .device-box { display: flex; gap: 8px; margin-bottom: 10px; }
+        .dev-btn { flex:1; background: var(--glass); border: 1px solid rgba(255,255,255,0.1); padding: 10px; border-radius: 12px; font-size: 9px; text-align: center; font-weight: bold; }
+        .dev-btn.active { border-color: var(--neon); background: rgba(0,234,255,0.15); color: var(--neon); }
+
+        #modelContainer { display: none; gap: 6px; overflow-x: auto; padding: 5px 0; margin-bottom: 10px; }
+        .model-btn { flex: 0 0 auto; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 8px 15px; border-radius: 10px; font-size: 10px; color: #888; }
+        .model-btn.active { border-color: var(--neon); color: white; background: rgba(0,234,255,0.2); }
+
+        .btn-action {
+            background: linear-gradient(90deg, #00eaff, #007bff); border: none; padding: 15px; border-radius: 15px;
+            color: black; font-weight: 900; font-size: 12px; text-transform: uppercase; margin-bottom: 12px; width: 100%;
+        }
+
+        #sensiDisplay { display: none; background: rgba(255,255,255,0.02); border: 1px dashed var(--neon); border-radius: 18px; padding: 15px; margin-bottom: 10px; }
+        .sensi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .sensi-item { font-size: 11px; color: #888; padding: 5px 0; }
+        .sensi-val { color: var(--neon); font-weight: bold; float: right; }
+
+        .btn { background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); padding: 16px; border-radius: 20px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; transition: 0.3s; }
+        .btn.active { border-color: var(--on); background: rgba(0, 255, 136, 0.05); }
+        
+        .toggle-circle { width: 34px; height: 17px; background: rgba(255,255,255,0.1); border-radius: 20px; position: relative; }
+        .circle { position: absolute; width: 11px; height: 11px; background: white; border-radius: 50%; top: 3px; left: 3px; transition: 0.3s; }
+        .active .toggle-circle { background: var(--on); }
+        .active .circle { left: 20px; background: #000; }
+
+        .launch-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+        .btn-launch { 
+            background: rgba(0,234,255,0.1); border: 1px solid var(--neon); 
+            padding: 12px; border-radius: 15px; color: var(--neon); 
+            font-size: 10px; font-weight: bold; text-align: center; 
+        }
+
+        .console { background: rgba(0,0,0,0.5); border-radius: 18px; padding: 12px; min-height: 80px; font-family: monospace; font-size: 9px; color: #555; overflow-y: auto; border: 1px solid rgba(255,255,255,0.05); }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <div class="container">
+        <div class="header">
+            <div class="title">MANJII<span style="color:var(--neon)">V2</span></div>
+            <div style="font-size:10px; color:var(--neon)">PREMIUM SYSTEM OPTIMIZER</div>
+        </div>
+
+        <div class="section-label">Device Sensitivity</div>
+        <div class="device-box">
+            <div class="dev-btn" id="d1" onclick="selectCat('d1', 'iPhone')">iPhone</div>
+            <div class="dev-btn" id="d2" onclick="selectCat('d2', 'iPad')">iPad</div>
+            <div class="dev-btn" id="d3" onclick="selectCat('d3', 'Android')">Android</div>
+        </div>
+        <div id="modelContainer"></div>
+        <button class="btn-action" onclick="generateNow()">Generate Sensitivity</button>
+
+        <div id="sensiDisplay">
+            <div class="sensi-grid">
+                <div class="sensi-item">General: <span class="sensi-val" id="s_gen">0</span></div>
+                <div class="sensi-item">Red Dot: <span class="sensi-val" id="s_red">0</span></div>
+                <div class="sensi-item">2x Scope: <span class="sensi-val" id="s_2x">0</span></div>
+                <div class="sensi-item">4x Scope: <span class="sensi-val" id="s_4x">0</span></div>
+            </div>
+        </div>
+
+        <div class="section-label">Main Injector</div>
+        <div class="btn" id="m1" onclick="toggle('m1', 'COMPETITIVE MODE')"><span>COMPETITIVE MODE</span><div class="toggle-circle"><div class="circle"></div></div></div>
+        <div class="btn" id="m2" onclick="toggle('m2', 'EASY DRAG IOS')"><span>EASY DRAG IOS</span><div class="toggle-circle"><div class="circle"></div></div></div>
+        <div class="btn" id="m3" onclick="toggle('m3', 'STABILIZER')"><span>STABILIZER</span><div class="toggle-circle"><div class="circle"></div></div></div>
+
+        <div class="section-label">System Tools</div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;">
+            <div class="btn" onclick="triggerClean('RAM')"><span>CLEAR RAM</span></div>
+            <div class="btn" onclick="triggerClean('CACHE')"><span>CLEAR CACHE</span></div>
+        </div>
+
+        <div class="section-label">Game Launcher</div>
+        <div class="launch-group">
+            <div class="btn-launch" onclick="launchGame('max')">OPEN FF MAX</div>
+            <div class="btn-launch" onclick="launchGame('normal')">OPEN FF</div>
+        </div>
+
+        <div class="btn" style="border:1px dashed #555" onclick="document.getElementById('fIn').click()">
+            <span>IMPORT FILE MODULE</span><span style="font-size:10px; color:var(--neon)">SELECT</span>
+        </div>
+        <input type="file" id="fIn" style="display:none" onchange="imp(event)">
+
+        <div class="console" id="con">> System Ready...</div>
+    </div>
+
+    <script>
+        let selectedCat = ""; let selectedModel = "";
+        const models = {
+            'iPhone': ['7/8 Plus', 'iPhone X', 'iPhone XR', 'iPhone 11', 'iPhone 12', 'iPhone 13', 'iPhone 14', 'iPhone 15', 'iPhone 16'],
+            'iPad': ['Mini', 'Air', 'Pro 11"', 'Pro 12.9"'],
+            'Android': ['ROG Phone', 'Poco F6', 'S24 Ultra', 'RedMagic 9']
+        };
+
+        // Fungsi Simulasi untuk Web Browser
+        function webNotify(msg) {
+            console.log("Notification: " + msg);
+            // Optional: Menggunakan Web Speech API agar tetap ada suara di browser
+            if ('speechSynthesis' in window) {
+                let utterance = new SpeechSynthesisUtterance(msg);
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function selectCat(id, cat) {
+            document.querySelectorAll('.dev-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            selectedCat = cat;
+            const container = document.getElementById('modelContainer');
+            container.innerHTML = ""; container.style.display = "flex";
+            models[cat].forEach(m => {
+                let btn = document.createElement('div'); btn.className = 'model-btn'; btn.innerText = m;
+                btn.onclick = () => {
+                    document.querySelectorAll('.model-btn').forEach(x => x.classList.remove('active'));
+                    btn.classList.add('active'); selectedModel = m;
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        function generateNow() {
+            if(!selectedModel) { log("<span style='color:red'>[!] Select model first</span>"); return; }
+            document.getElementById('sensiDisplay').style.display = 'block';
+            let b = 180 + Math.floor(Math.random()*20);
+            document.getElementById('s_gen').innerText = b;
+            document.getElementById('s_red').innerText = b - 4;
+            document.getElementById('s_2x').innerText = b - 8;
+            document.getElementById('s_4x').innerText = b - 12;
+            log("<span style='color:var(--neon)'>[+]</span> Sensi generated for " + selectedModel);
+            webNotify("Sensitivity Generated for " + selectedModel);
+        }
+
+        function triggerClean(type) {
+            log("<span style='color:var(--neon)'>[*]</span> Optimizing " + type + "...");
+            setTimeout(() => {
+                log("<span style='color:var(--on)'>[SUCCESS]</span> " + type + " cleared!");
+                webNotify(type + " cleared successfully");
+            }, 1000);
+        }
+
+        function toggle(id, n) {
+            const b = document.getElementById(id);
+            b.classList.toggle('active');
+            log(b.classList.contains('active') ? "<span style='color:var(--neon)'>[+]</span> " + n + " ON" : "[-] " + n + " OFF");
+            webNotify(n + (b.classList.contains('active') ? " Activated" : " Deactivated"));
+        }
+
+        function launchGame(type) {
+            log("Attempting to launch: " + type);
+            if (type === "max") window.location.href = "freefiremax://";
+            else window.location.href = "freefire://";
+            
+            setTimeout(() => {
+                webNotify("VIP TOOLS MANJII V2 ACTIVE");
+                log("<span style='color:var(--on)'>[ACTIVE]</span> VIP TOOLS MANJII V2");
+            }, 4000);
+        }
+
+        function imp(e) {
+            if(e.target.files[0]) {
+                log("<span style='color:var(--neon)'>[*]</span> Injected: " + e.target.files[0].name);
+                webNotify("vip tools manjii v2 sukses di aktifkan");
+            }
+        }
+
+        function log(m) {
+            let c = document.getElementById("con");
+            c.innerHTML += "<br>" + m;
+            c.scrollTop = c.scrollHeight;
+        }
+    </script>
+</body>
+</html>
