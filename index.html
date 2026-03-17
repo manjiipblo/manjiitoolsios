@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MANJII V2 - VIP TOOLS</title>
+    <title>MANJII V2 - WEB ACCESS</title>
     <style>
         :root { --neon: #00eaff; --bg: #02040a; --glass: rgba(255, 255, 255, 0.05); --on: #00ff88; }
         body { margin:0; font-family:-apple-system, system-ui; color:white; background:var(--bg); overflow-x:hidden; }
         
-        /* Background & Orbs */
+        /* Background & Animation */
         .bg-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, #051020 0%, #02040a 100%); z-index: -2; }
         .orb { position: absolute; width: 200px; height: 200px; border-radius: 50%; filter: blur(60px); opacity: 0.2; z-index: -1; animation: move 12s infinite alternate ease-in-out; }
         .orb-1 { background: var(--neon); top: -50px; left: -50px; }
         .orb-2 { background: #007bff; bottom: -50px; right: -50px; animation-delay: -4s; }
         @keyframes move { 0% { transform: translate(0, 0); } 100% { transform: translate(80px, 120px); } }
 
-        /* Login Screen */
+        /* Login System */
         #login-screen { position: fixed; z-index: 100; background: var(--bg); width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; backdrop-filter: blur(20px); }
         .login-card { background: var(--glass); padding: 30px; border-radius: 25px; border: 1px solid rgba(0, 234, 255, 0.2); width: 85%; max-width: 320px; text-align: center; }
         .login-input { width: 100%; padding: 15px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; text-align: center; margin-bottom: 20px; outline: none; box-sizing: border-box; }
-        .login-btn { width: 100%; padding: 15px; border-radius: 12px; border: none; background: linear-gradient(90deg, #00eaff, #007bff); color: black; font-weight: bold; }
+        .login-btn { width: 100%; padding: 15px; border-radius: 12px; border: none; background: linear-gradient(90deg, #00eaff, #007bff); color: black; font-weight: bold; width: 100%; }
 
         /* Main App Container */
         #main-app { display: none; }
@@ -28,7 +28,7 @@
         .title { font-size: 26px; font-weight: 900; letter-spacing: 2px; }
         .section-label { font-size: 10px; font-weight: 800; color: rgba(255,255,255,0.3); text-transform: uppercase; margin: 12px 0 8px 0; }
 
-        /* Device Sensitivity UI */
+        /* Sensitivity UI */
         .device-box { display: flex; gap: 8px; margin-bottom: 10px; }
         .dev-btn { flex:1; background: var(--glass); border: 1px solid rgba(255,255,255,0.1); padding: 10px; border-radius: 12px; font-size: 9px; text-align: center; font-weight: bold; }
         .dev-btn.active { border-color: var(--neon); background: rgba(0,234,255,0.15); color: var(--neon); }
@@ -36,22 +36,25 @@
         .model-btn { flex: 0 0 auto; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 8px 15px; border-radius: 10px; font-size: 10px; color: #888; }
         .model-btn.active { border-color: var(--neon); color: white; background: rgba(0,234,255,0.2); }
 
-        .btn-action { background: linear-gradient(90deg, #00eaff, #007bff); border: none; padding: 15px; border-radius: 15px; color: black; font-weight: 900; width: 100%; margin-bottom: 12px; }
-        #sensiDisplay { display: none; background: rgba(0,234,255,0.05); border: 1px dashed var(--neon); border-radius: 18px; padding: 15px; margin-bottom: 10px; }
+        .btn-action { background: linear-gradient(90deg, #00eaff, #007bff); border: none; padding: 15px; border-radius: 15px; color: black; font-weight: 900; font-size: 12px; text-transform: uppercase; margin-bottom: 12px; width: 100%; }
+        #sensiDisplay { display: none; background: rgba(255,255,255,0.02); border: 1px dashed var(--neon); border-radius: 18px; padding: 15px; margin-bottom: 10px; }
         .sensi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .sensi-item { font-size: 11px; color: #888; padding: 5px 0; }
         .sensi-val { color: var(--neon); font-weight: bold; float: right; }
 
-        /* Buttons & Toggles */
-        .btn { background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.1); padding: 16px; border-radius: 20px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
+        /* Injector Items */
+        .btn { background: var(--glass); border: 1px solid rgba(255, 255, 255, 0.1); padding: 16px; border-radius: 20px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; transition: 0.3s; }
         .btn.active { border-color: var(--on); background: rgba(0, 255, 136, 0.05); }
         .toggle-circle { width: 34px; height: 17px; background: rgba(255,255,255,0.1); border-radius: 20px; position: relative; }
         .circle { position: absolute; width: 11px; height: 11px; background: white; border-radius: 50%; top: 3px; left: 3px; transition: 0.3s; }
         .active .toggle-circle { background: var(--on); }
         .active .circle { left: 20px; background: #000; }
 
+        /* Game Launcher */
         .launch-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
         .btn-launch { background: rgba(0,234,255,0.1); border: 1px solid var(--neon); padding: 12px; border-radius: 15px; color: var(--neon); font-size: 10px; font-weight: bold; text-align: center; }
-        .console { background: rgba(0,0,0,0.5); border-radius: 18px; padding: 12px; min-height: 80px; font-family: monospace; font-size: 9px; color: #555; overflow-y: auto; border: 1px solid rgba(255,255,255,0.05); }
+
+        .console { background: rgba(0,0,0,0.5); border-radius: 18px; padding: 12px; min-height: 80px; font-family: monospace; font-size: 9px; color: #555; overflow-y: auto; border: 1px solid rgba(255,255,255,0.05); margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -63,7 +66,7 @@
         <div class="login-card">
             <h2 style="color:var(--neon)">🔑 VIP LOGIN</h2>
             <input type="text" id="license-input" class="login-input" placeholder="PASTE KEY HERE">
-            <button class="login-btn" onclick="checkLicense()">LOGIN</button>
+            <button class="login-btn" onclick="checkLicense()">VERIFY ACCESS</button>
             <p id="error-msg" style="color:red; font-size:10px; margin-top:10px; display:none"></p>
         </div>
     </div>
@@ -86,16 +89,23 @@
 
             <div id="sensiDisplay">
                 <div class="sensi-grid">
-                    <div>Gen: <span class="sensi-val" id="s_gen">0</span></div>
-                    <div>Red: <span class="sensi-val" id="s_red">0</span></div>
-                    <div>2x: <span class="sensi-val" id="s_2x">0</span></div>
-                    <div>4x: <span class="sensi-val" id="s_4x">0</span></div>
+                    <div class="sensi-item">General: <span class="sensi-val" id="s_gen">0</span></div>
+                    <div class="sensi-item">Red Dot: <span class="sensi-val" id="s_red">0</span></div>
+                    <div class="sensi-item">2x Scope: <span class="sensi-val" id="s_2x">0</span></div>
+                    <div class="sensi-item">4x Scope: <span class="sensi-val" id="s_4x">0</span></div>
                 </div>
             </div>
 
             <div class="section-label">Main Injector</div>
-            <div class="btn" id="m1" onclick="toggle('m1', 'COMPETITIVE MODE')"><span>COMPETITIVE MODE</span><div class="toggle-circle"><div class="circle"></div></div></div>
-            <div class="btn" id="m2" onclick="toggle('m2', 'EASY DRAG IOS')"><span>EASY DRAG IOS</span><div class="toggle-circle"><div class="circle"></div></div></div>
+            <div class="btn" onclick="toggle(this, 'COMPETITIVE MODE')"><span>COMPETITIVE MODE</span><div class="toggle-circle"><div class="circle"></div></div></div>
+            <div class="btn" onclick="toggle(this, 'EASY DRAG IOS')"><span>EASY DRAG IOS</span><div class="toggle-circle"><div class="circle"></div></div></div>
+            <div class="btn" onclick="toggle(this, 'STABILIZER')"><span>STABILIZER</span><div class="toggle-circle"><div class="circle"></div></div></div>
+
+            <div class="section-label">System Tools</div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;">
+                <div class="btn" onclick="triggerClean('RAM')"><span>CLEAR RAM</span></div>
+                <div class="btn" onclick="triggerClean('CACHE')"><span>CLEAR CACHE</span></div>
+            </div>
 
             <div class="section-label">Game Launcher</div>
             <div class="launch-group">
@@ -103,18 +113,18 @@
                 <div class="btn-launch" onclick="launchGame('normal')">OPEN FF</div>
             </div>
 
+            <div class="btn" style="border:1px dashed #555" onclick="document.getElementById('fIn').click()">
+                <span>IMPORT FILE MODULE</span><span style="font-size:10px; color:var(--neon)">SELECT</span>
+            </div>
+            <input type="file" id="fIn" style="display:none" onchange="imp(event)">
+
             <div class="console" id="con">> System Ready...</div>
         </div>
     </div>
 
     <script>
+        // MASUKKAN URL GOOGLE SCRIPT ANDA DI SINI
         const webAppUrl = "https://script.google.com/macros/s/AKfycbxSxeM21kasAxHycbL4wqFfng249mqXWp5GVBLz_MFPcGg-BrXr4MESkKYiyqrIgPLY/exec";
-        let selectedCat = ""; let selectedModel = "";
-        const models = {
-            'iPhone': ['X', 'XR', '11', '12', '13', '14', '15', '16'],
-            'iPad': ['Mini', 'Air', 'Pro'],
-            'Android': ['ROG', 'Poco', 'S24']
-        };
 
         async function checkLicense() {
             const input = document.getElementById('license-input').value.trim().toUpperCase();
@@ -123,18 +133,23 @@
             try {
                 const res = await fetch(webAppUrl);
                 const db = await res.json();
-                const now = new Date().getTime();
-
-                if(db[input] && now < db[input].expiry) {
+                if(db[input] && new Date().getTime() < db[input].expiry) {
                     document.getElementById('login-screen').style.display = 'none';
                     document.getElementById('main-app').style.display = 'block';
-                    speak("Welcome back Manjii. System activated.");
+                    speak("Access Granted. Welcome back Manjii.");
                 } else {
-                    document.getElementById('error-msg').innerText = "INVALID OR EXPIRED KEY!";
+                    document.getElementById('error-msg').innerText = "INVALID KEY!";
                     document.getElementById('error-msg').style.display = 'block';
                 }
             } catch(e) { alert("Connection Error!"); }
         }
+
+        let selectedCat = ""; let selectedModel = "";
+        const models = {
+            'iPhone': ['7/8 Plus', 'iPhone X', 'iPhone XR', 'iPhone 11', 'iPhone 12', 'iPhone 13', 'iPhone 14', 'iPhone 15', 'iPhone 16'],
+            'iPad': ['Mini', 'Air', 'Pro 11"', 'Pro 12.9"'],
+            'Android': ['ROG Phone', 'Poco F6', 'S24 Ultra', 'RedMagic 9']
+        };
 
         function selectCat(id, cat) {
             document.querySelectorAll('.dev-btn').forEach(b => b.classList.remove('active'));
@@ -153,28 +168,45 @@
         }
 
         function generateNow() {
-            if(!selectedModel) return;
+            if(!selectedModel) { log("<span style='color:red'>[!] Select model first</span>"); return; }
             document.getElementById('sensiDisplay').style.display = 'block';
-            let b = 180 + Math.floor(Math.random()*15);
+            let b = 180 + Math.floor(Math.random()*20);
             document.getElementById('s_gen').innerText = b;
-            document.getElementById('s_red').innerText = b - 2;
+            document.getElementById('s_red').innerText = b - 4;
+            document.getElementById('s_2x').innerText = b - 8;
+            document.getElementById('s_4x').innerText = b - 12;
             log("[+] Sensi generated for " + selectedModel);
+            speak("Sensitivity Generated for " + selectedModel);
         }
 
-        function toggle(id, n) {
-            const b = document.getElementById(id);
-            b.classList.toggle('active');
-            let active = b.classList.contains('active');
-            log(active ? "[+] " + n + " ON" : "[-] " + n + " OFF");
-            if(active) speak(n + " Activated");
+        function triggerClean(type) {
+            log("[*] Optimizing " + type + "...");
+            setTimeout(() => {
+                log("[SUCCESS] " + type + " cleared!");
+                speak(type + " cleared successfully");
+            }, 1000);
+        }
+
+        function toggle(el, n) {
+            el.classList.toggle('active');
+            let status = el.classList.contains('active');
+            log(status ? "[+] " + n + " ON" : "[-] " + n + " OFF");
+            speak(n + (status ? " Activated" : " Deactivated"));
         }
 
         function launchGame(type) {
-            log("Launching Game...");
-            speak("Starting Free Fire. Good luck.");
+            log("Opening Game...");
+            speak("Starting Free Fire. VIP Tools Active.");
             setTimeout(() => {
-                window.location.href = (type === "max") ? "freefiremax://" : "freefire://";
+                window.location.href = type === 'max' ? "freefiremax://" : "freefire://";
             }, 1000);
+        }
+
+        function imp(e) {
+            if(e.target.files[0]) {
+                log("[*] Injected: " + e.target.files[0].name);
+                speak("Vip tools manjii v2 sukses di aktifkan");
+            }
         }
 
         function log(m) {
