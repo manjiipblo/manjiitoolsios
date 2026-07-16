@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MANJII V2 - WEB ACCESS</title>
+    <title>MANJII OFFICIAL - TOOLS ACCESS</title>
     <style>
         :root { --neon: #00eaff; --bg: #02040a; --glass: rgba(255, 255, 255, 0.05); --on: #00ff88; }
         body { margin:0; font-family:-apple-system, system-ui; color:white; background:var(--bg); overflow-x:hidden; }
@@ -64,8 +64,8 @@
 
     <div id="login-screen">
         <div class="login-card">
-            <h2 style="color:var(--neon)">🔑 MANJII VIP LOGIN</h2>
-            <input type="text" id="license-input" class="login-input" placeholder="PASTE KEY HERE">
+            <h2 style="color:var(--neon)">MANJII OFFICIAL</h2>
+            <input type="text" id="license-input" class="login-input" placeholder="PASTE KEY LICENSE">
             <button class="login-btn" onclick="checkLicense()">VERIFY ACCESS</button>
             <p id="error-msg" style="color:red; font-size:10px; margin-top:10px; display:none"></p>
         </div>
@@ -74,15 +74,14 @@
     <div id="main-app">
         <div class="container">
             <div class="header">
-                <div class="title">MANJII<span style="color:var(--neon)">V2</span></div>
+                <div class="title">MANJII<span style="color:var(--neon)">OFFICIAL</span></div>
                 <div style="font-size:10px; color:var(--neon)">PREMIUM SYSTEM OPTIMIZER</div>
             </div>
 
             <div class="section-label">Device Sensitivity</div>
             <div class="device-box">
                 <div class="dev-btn" id="d1" onclick="selectCat('d1', 'iPhone')">iPhone</div>
-                <div class="dev-btn" id="d2" onclick="selectCat('d2', 'iPad')">iPad</div>
-                <div class="dev-btn" id="d3" onclick="selectCat('d3', 'Android')">Android</div>
+                <div class="dev-btn" id="d2" onclick="selectCat('d2', 'iPad')">iPad</div
             </div>
             <div id="modelContainer"></div>
             <button class="btn-action" onclick="generateNow()">Generate Sensitivity</button>
@@ -96,25 +95,25 @@
                 </div>
             </div>
 
-            <div class="section-label">Main Injector</div>
-            <div class="btn" onclick="toggle(this, 'COMPETITIVE MODE')"><span>COMPETITIVE MODE</span><div class="toggle-circle"><div class="circle"></div></div></div>
-            <div class="btn" onclick="toggle(this, 'EASY DRAG IOS')"><span>EASY DRAG IOS</span><div class="toggle-circle"><div class="circle"></div></div></div>
-            <div class="btn" onclick="toggle(this, 'STABILIZER')"><span>STABILIZER</span><div class="toggle-circle"><div class="circle"></div></div></div>
+            <div class="section-label">Menu Tools</div>
+            <div class="btn" onclick="toggle(this, 'EASY DRAG V1')"><span>EASY DRAG V1</span><div class="toggle-circle"><div class="circle"></div></div></div>
+            <div class="btn" onclick="toggle(this, 'EASY DRAG V2')"><span>EASY DRAG V2</span><div class="toggle-circle"><div class="circle"></div></div></div>
+            <div class="btn" onclick="toggle(this, 'RECOIL CONTROL')"><span>RECOIL CONTROL</span><div class="toggle-circle"><div class="circle"></div></div></div>
 
             <div class="section-label">System Tools</div>
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;">
-                <div class="btn" onclick="triggerClean('RAM')"><span>CLEAR RAM</span></div>
+                <div class="btn" onclick="triggerClean('RAM')"><span>CLEAR MEMORY</span></div>
                 <div class="btn" onclick="triggerClean('CACHE')"><span>CLEAR CACHE</span></div>
             </div>
 
             <div class="section-label">Game Launcher</div>
             <div class="launch-group">
-                <div class="btn-launch" onclick="launchGame('max')">OPEN FF MAX</div>
-                <div class="btn-launch" onclick="launchGame('normal')">OPEN FF</div>
+                <div class="btn-launch" onclick="launchGame('max')">FREE FIRE MAX</div>
+                <div class="btn-launch" onclick="launchGame('normal')">FREE FIRE</div>
             </div>
 
             <div class="btn" style="border:1px dashed #555" onclick="document.getElementById('fIn').click()">
-                <span>IMPORT FILE MODULE</span><span style="font-size:10px; color:var(--neon)">SELECT</span>
+                <span>IMPORT FILE</span><span style="font-size:10px; color:var(--neon)">SELECT</span>
             </div>
             <input type="file" id="fIn" style="display:none" onchange="imp(event)">
 
@@ -136,7 +135,7 @@
                 if(db[input] && new Date().getTime() < db[input].expiry) {
                     document.getElementById('login-screen').style.display = 'none';
                     document.getElementById('main-app').style.display = 'block';
-                    speak("Access Granted. Welcome back Manjii.");
+                    speak("Access Diterima. Welcome Tools Manjii Official.");
                 } else {
                     document.getElementById('error-msg').innerText = "INVALID KEY!";
                     document.getElementById('error-msg').style.display = 'block';
@@ -148,7 +147,6 @@
         const models = {
             'iPhone': ['7/8 Plus', 'iPhone X', 'iPhone XR', 'iPhone 11', 'iPhone 12', 'iPhone 13', 'iPhone 14', 'iPhone 15', 'iPhone 16'],
             'iPad': ['Mini', 'Air', 'Pro 11"', 'Pro 12.9"'],
-            'Android': ['ROG Phone', 'Poco F6', 'S24 Ultra', 'RedMagic 9']
         };
 
         function selectCat(id, cat) {
@@ -196,7 +194,7 @@
 
         function launchGame(type) {
             log("Opening Game...");
-            speak("Starting Free Fire. VIP Tools Active.");
+            speak("Starting Free Fire. License Tools Active.");
             setTimeout(() => {
                 window.location.href = type === 'max' ? "freefiremax://" : "freefire://";
             }, 1000);
@@ -205,7 +203,7 @@
         function imp(e) {
             if(e.target.files[0]) {
                 log("[*] Injected: " + e.target.files[0].name);
-                speak("Vip tools manjii v2 sukses di aktifkan");
+                speak("tools manjii official sukses di aktifkan");
             }
         }
 
